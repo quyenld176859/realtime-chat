@@ -19,6 +19,6 @@ io.on('connection', (socket) => {
     })
 })
 
-server.listen('realtime-chat-test1.herokuapp.com', () => {
+server.listen(4000, () => {
     console.log("listen to port 4000")
 })
