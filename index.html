@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat app</title>
+    <style>
+        ul {
+            display: block;
+            width: 300px;
+            max-height: 350px;
+            min-height: 200px;
+            overflow: auto;
+            border: 1px solid black;
+            border-radius: 10px;
+            padding: 15px;
+
+        }
+
+        ul li {
+            display: block;
+            width: 100%;
+            height: 40px;
+        }
+
+        ul li.host {
+            text-align: right;
+        }
+
+        ul li span:nth-child(2) {
+            border-radius: 10px;
+            background-color: cadetblue;
+            padding: 10px;
+        }
+
+        ul li.host span:first-child {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>App chat of Mr.Quyen</h1>
+    <ul id="messlist"></ul>
+    <form action="" id="form_data">
+        <input type="text" id="chat_input">
+        <button>Send</button>
+    </form>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io()
+    const name = prompt("Tên chat của bạn là gì: ")
+    form_data.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const mess = chat_input.value;
+        socket.emit('onchat', { name: name, message: mess });
+        chat_input.value = '';
+    })
+
+    socket.on('user_chat', (mess) => {
+        const ishost = name === mess.name ? "<li class='host'>" : "<li>";
+        const chatItem = ishost + "<span>" + mess.name + ": " + "</span>" + "<span>" + mess.message + "</span>" + "</li>";
+        messlist.innerHTML += chatItem;
+    })
+
+</script>
+
+</html>
